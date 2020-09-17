@@ -1,0 +1,48 @@
+{
+	"type": "record",
+	"name": "Patient",
+	"fields": [
+		{"name": "identifier", "type": ["null", "string"], "default": null},
+		{"name": "active", "type": ["null", "boolean"],  "default": null},
+		{"name": "Name", "type": ["null", "string"], "default": null},
+		{"name": "telecom", "type": ["null", "string"], "default": null},
+		{"name": "gender", "type":{
+			"name": "genderEnum", "type":"enum", "symbols": ["male", "female", "other", "unknown", null]},
+		"default": null},
+		{"name": "birthDate", "type": ["null","string"], "default": null},
+		{"name": "deceasedBoolean", "type": ["null","boolean"], "default": null},
+		{"name": "deceasedDateTime", "type": ["null","string"], "default": null},
+		{"name": "address", "type": ["null","string"], "default": null},
+		{"name": "maritalStatus", "type": {
+			"name": "maritalStatusEnum", "type": "enum", "symbols": ["single", "married", "unknown", null]},
+		"default": null
+		},
+		{"name": "multipleBirthBoolean", "type": ["null", "boolean"], "default": null},
+		{"name": "multipleBirthInteger", "type": ["null", "int"], "default": null},
+		{"name": "photo", "type": ["null", "string"], "default": null},
+		{"name": "contactRelationship", "type": ["null", "string"], "default": null},
+		{"name": "contactName", "type": ["null", "string"], "default": null},
+		{"name": "contactTelecom", "type": ["null", "string"], "default": null},
+		{"name": "contactAddress", "type": ["null", "string"], "default": null},
+		{"name": "contactGender", "type": {
+			"name": "contactGenderEnum", "type": "enum", "symbols": ["male", "female", "other", "unknown", null]},
+		"default": null
+		},
+		{"name": "contactOrganization", "type": ["null", "string"], "default": null},
+		{"name": "contactPeriod", "type": ["null", "string"], "default": null},
+		{"name": "communicationLanguage", "type": ["null", "string"], "default": null},
+		{"name": "communicationPreferred", "type": ["null", "boolean"], "default": null},
+		{"name": "generalPractitioner", "type": ["null", "string"], "default": null},
+		{"name": "managingOrganization", "type": ["null", "string"], "default": null},
+		{"name": "linkOther", "type": ["null", "string"], "default": null},
+		{"name": "linkType", "type": {
+			"name": "linkTypeEnum", "type": "enum", "symbols": ["replaced-by", "replaces", "refer", "seealso", null]},
+		"default": null
+		},
+		{"name": "us-core-ethnicity", "type": ["null", "string"], "default": null},
+		{"name": "us-core-race", "type": ["null", "string"], "default": null},
+		{"name": "species", "type": ["null", "boolean"], "default": null},
+		{"name": "relation", "type": ["null", "string"], "default": null}
+
+	]
+}
