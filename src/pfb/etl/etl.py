@@ -195,7 +195,7 @@ class ETL:
         otherwise the data will be stored in multiple indices
         """
 
-        if multiple_indices:
+        if not multiple_indices:
             idx = 0
             for row in self.spanning_tree_rows:
                 submission_json = {}
