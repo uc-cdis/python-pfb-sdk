@@ -24,7 +24,7 @@ from ..etl.etl import ETL
     "node",
     metavar="NODE",
     type=str,
-    default="-",
+    required=True,
     help="root node for ETL",
 )
 @click.argument("path", required=True, metavar="PFB", type=str)

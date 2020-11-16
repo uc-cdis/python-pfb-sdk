@@ -57,8 +57,8 @@ class ETL:
             # skip the data that does not have submitter_id
             return
         if record["name"] not in self.node_rows:
-            self.node_rows[record["name"]] = []
-        self.node_rows[record["name"]].append(data)
+            self.node_rows[record["name"]] = {}
+        self.node_rows[record["name"]][data["submitter_id"]] = data
         relations = record["relations"]
         submitter_id = data["submitter_id"]
         for relation in relations:
@@ -188,20 +188,39 @@ class ETL:
             result[node_name].add(submitted_id)
         return result
 
-    async def load_to_es(self):
-        """submit data to es database"""
+    async def load_to_es(self, multiple_indices=False):
+        """
+        Load transformed data to database.
+        if multiple_indices is False, all the data is stored in single index
+        otherwise the data will be stored in multiple indices
+        """
 
-        for node_name, values in self.node_rows.items():
-            for value in values:
+        if multiple_indices:
+            idx = 0
+            for row in self.spanning_tree_rows:
+                submission_json = {}
+                for (node_id, node_name) in row:
+                    for k, v in self.node_rows[node_name][node_id].items():
+                        submission_json[f"{node_name}_{k}"] = v
+                        await self.helper.insert_document(
+                            "spanning_tree_index", submission_json, idx
+                        )
+                        idx = idx + 1
+
+        else:
+            for node_name in self.node_rows.keys():
+                for _, value in self.node_rows[node_name].items():
+                    await self.helper.insert_document(
+                        node_name, value, value["submitter_id"]
+                    )
+
+            # TODO: implement batch insertion
+            i = 0
+            for row in self.spanning_tree_rows:
+                submission_json = {}
+                for (node_id, node_name) in row:
+                    submission_json[node_name] = node_id
                 await self.helper.insert_document(
-                    node_name, value, value["submitter_id"]
+                    "spanning_tree_index", submission_json, i
                 )
-
-        # TODO: implement batch insertion
-        i = 0
-        for row in self.spanning_tree_rows:
-            submission_json = {}
-            for (node_id, node_name) in row:
-                submission_json[node_name] = node_id
-            await self.helper.insert_document("spanning_tree_index", submission_json, i)
-            i += 1
+                i += 1
