@@ -244,6 +244,12 @@ class PFBWriter(PFBBase):
             name_from = name_from.decode()
         if type(name_to) == bytes:
             name_to = name_to.decode()
+        for meta in self.metadata["nodes"]:
+            # print(meta["links"])
+            for l in meta["links"]:
+                if l["dst"] == name_from:
+                    l["dst"] = name_to
+                    l["name"] = name_to + "s"
         for node in self.schema:
             if node["name"] == name_from:
                 node["aliases"] = node.get("aliases", []) + [name_from]
@@ -254,6 +260,10 @@ class PFBWriter(PFBBase):
                             type_["name"] = type_["name"].replace(name_from, name_to)
 
         def _rename_node(record):
+            for rel in record["relations"]:
+                # this is ok because the length of the relations array is usually 0,1, or 2 elements
+                if rel["dst_name"] == name_from:
+                    rel["dst_name"] = name_to
             if record["name"] == name_from:
                 record["name"] = name_to
                 record["object"] = (name_to, record["object"][1])
