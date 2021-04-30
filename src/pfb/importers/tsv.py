@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import glob
 import pandas as pd
 import os
+import csv
 
 import click
 
@@ -69,7 +70,8 @@ def _from_tsv(metadata, path, program, project):
         tsv_data = pd.read_csv(
             os.path.join(path, o + ".tsv"), delimiter="\t", index_col=1
         )
-        tsv_data = tsv_data.where(pd.notnull(tsv_data), None).to_dict(orient="records")
+        # tsv_data = tsv_data.where(pd.notnull(tsv_data), None).to_dict(orient="records")
+        tsv_data = list(csv.DictReader(open(os.path.join(path, o + ".tsv"))))
 
         node_name = o
 
