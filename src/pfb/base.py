@@ -44,6 +44,7 @@ def unicode_decode(matchobj):
     else:
         unicodeRep = "\\u" + unicodeRep
 
+    print(matchobj.group(0))
     unicodeRep = unicodeRep.encode().decode("unicode_escape")
     return unicodeRep
 
