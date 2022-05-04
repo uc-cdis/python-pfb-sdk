@@ -167,6 +167,10 @@ class PFBBase(object):
             for node in self._schema:
                 self._is_encode[node["name"]] = fields = {}
                 for field in node["fields"]:
+                    if field["name"] == "ancestry":
+                        import pdb
+
+                        pdb.set_trace()
                     fields[field["name"]] = is_enum(field["type"])
 
     def is_encode(self, node_name, field_name):

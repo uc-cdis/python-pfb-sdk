@@ -36,6 +36,10 @@ class PFBReader(PFBBase):
         obj = rv["object"]
         to_update = {}
         for name, value in list(obj.items()):
+            if name == "ancestry":
+                import pdb
+
+                pdb.set_trace()
             if value and self.is_encode(rv["name"], name):
                 to_update[name] = decode_enum(value)
         obj.update(to_update)
